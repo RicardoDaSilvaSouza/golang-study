@@ -36,16 +36,16 @@ func (d deck) toString() string {
 	return strings.Join([]string(d), "\n")
 }
 
-func saveToFile(d deck) {
-	if err := ioutil.WriteFile("/Users/ricardo.souza/cards.txt", []byte(d.toString()), 0664); err != nil {
+func (d deck) saveToFile(file string) {
+	if err := ioutil.WriteFile(file, []byte(d.toString()), 0664); err != nil {
 		msg := "Erro ao gravar arquivo: " + err.Error()
 		println(msg)
 		panic(msg)
 	}
 }
 
-func newDeckFromFile() deck {
-	if bytes, err := ioutil.ReadFile("/Users/ricardo.souza/cards.txt"); err != nil {
+func newDeckFromFile(file string) deck {
+	if bytes, err := ioutil.ReadFile(file); err != nil {
 		msg := "Erro ao ler arquivo: " + err.Error()
 		println(msg)
 		panic(msg)
