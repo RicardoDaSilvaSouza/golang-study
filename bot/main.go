@@ -2,12 +2,14 @@ package main
 
 import "fmt"
 
-type englishBot struct{}
-type spanishBot struct{}
+type (
+	englishBot struct{}
+	spanishBot struct{}
 
-type bot interface {
-	getGreeting() string
-}
+	bot interface {
+		getGreeting() string
+	}
+)
 
 func main() {
 	eb := englishBot{}
