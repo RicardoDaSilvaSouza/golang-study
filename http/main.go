@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 )
+
+type logWritter struct{}
 
 func main() {
 	resp, err := http.Get("http://www.google.com.br/")
@@ -14,13 +17,23 @@ func main() {
 	}
 
 	if resp.StatusCode == 200 {
-		var bytes []byte
-		body := ""
-		read, err := resp.Body.Read(bytes)
-		for read > 0 && err != nil {
+		/*bytes := make([]byte, 1024)
+		_, err := resp.Body.Read(bytes)
+		body := string(bytes)
+		for err == nil {
+			_, err = resp.Body.Read(bytes)
 			body += string(bytes)
-			read, err = resp.Body.Read(bytes)
 		}
-		fmt.Println(body)
+		fmt.Println(body)*/
+		//io.Copy(os.Stdout, resp.Body)
+		io.Copy(logWritter{}, resp.Body)
+		resp.Body.Close()
 	}
+}
+
+func (lw logWritter) Write(bs []byte) (written int, err error) {
+	fmt.Println(string(bs))
+	written = len(bs)
+	fmt.Printf("%d bytes was written\n", written)
+	return written, err
 }
