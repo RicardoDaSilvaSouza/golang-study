@@ -27,12 +27,16 @@ func main() {
 	} */
 
 	for link := range channel {
-		go checkLink(link, channel)
+		// go checkLink(link, channel)
+		go func(l string) {
+			time.Sleep(time.Second * 5)
+			checkLink(l, channel)
+		}(link)
 	}
 }
 
 func checkLink(link string, channel chan string) {
-	time.Sleep(time.Second * 5)
+	// time.Sleep(time.Second * 5)
 	if _, err := http.Get(link); err != nil {
 		fmt.Println(link, "might be down!")
 		channel <- link
