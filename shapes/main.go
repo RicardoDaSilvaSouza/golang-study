@@ -26,7 +26,7 @@ func main() {
 }
 
 func printArea(sp shape) {
-	fmt.Printf("Shape %T has an area %f", sp, sp.getArea())
+	fmt.Printf("Shape %T has an area %.2f\n", sp, sp.getArea())
 }
 
 /*func (sp shape) printArea() {
